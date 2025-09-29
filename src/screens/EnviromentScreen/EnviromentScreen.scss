@@ -1,0 +1,71 @@
+@use "../../styles/mixins" as *;
+
+.enviroment-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &__wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 60px;
+
+    &__option {
+      width: 321px;
+      height: 80px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      padding: 0 10px;
+      border: 1px solid black;
+      border-radius: 18px;
+      transition: border 0.2s ease, transform 0.2s ease;
+
+      &.selected {
+        @include selected;
+      }
+      &:hover {
+        transform: scale(1.05);
+      }
+
+      &__label {
+        font-size: 19px;
+        font-weight: 600;
+      }
+
+      &__image-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 60px;
+        height: 60px;
+        background-color: #eaf2ff;
+        border-radius: 7px;
+      }
+    }
+  }
+
+  &__title {
+    @include title;
+  }
+
+  &__subtitle {
+    @include subtitle;
+  }
+}
+
+.option.muscle .image {
+  width: 30px;
+  height: 43px;
+}
+
+.option.fit .image {
+  width: 48px;
+  height: 36px;
+}
+
+.option.weight .image {
+  width: 47px;
+  height: 44px;
+}

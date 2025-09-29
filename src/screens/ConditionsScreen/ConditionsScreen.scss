@@ -1,0 +1,67 @@
+@use "../../styles/mixins" as *;
+
+.conditions-screen {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  &__wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 60px;
+
+    &__option {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      width: 321px;
+      height: 80px;
+      padding: 0 10px;
+      border: 1px solid black;
+      border-radius: 18px;
+      transition: border 0.2s ease, transform 0.2s ease;
+
+      &:hover {
+        transform: scale(1.05);
+      }
+
+      &.selected {
+        @include selected;
+      }
+
+      &.none {
+        justify-content: center;
+      }
+
+      &__label {
+        font-size: 19px;
+        font-weight: 600;
+      }
+
+      &__image-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 60px;
+        height: 60px;
+        background-color: #eaf2ff;
+        border-radius: 7px;
+
+        &__image {
+          width: 55.5px;
+          height: 55.5px;
+        }
+      }
+    }
+  }
+
+  &__title {
+    @include title;
+  }
+
+  &__subtitle {
+    @include subtitle;
+  }
+}

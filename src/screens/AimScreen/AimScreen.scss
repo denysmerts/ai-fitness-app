@@ -1,0 +1,52 @@
+@use "../../styles/mixins" as *;
+
+.aim-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &__wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 60px;
+    &__option {
+      width: 321px;
+      height: 80px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      border: 1px solid black;
+      padding: 0 10px;
+      border-radius: 18px;
+      transition: border 0.2s ease, transform 0.2s ease;
+
+      &.selected {
+        @include selected;
+      }
+
+      &:hover {
+        transform: scale(1.05);
+      }
+
+      &__image {
+        width: 60px;
+        height: 60px;
+        border-radius: 7px;
+      }
+
+      &__label {
+        font-size: 19px;
+        font-weight: 600;
+      }
+    }
+  }
+
+  &__title {
+    @include title;
+  }
+
+  &__subtitle {
+    @include subtitle;
+  }
+}

@@ -1,0 +1,51 @@
+@use "../../styles/mixins" as *;
+
+.age-screen {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 100vh;
+
+  &__wrapper {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 30px;
+    row-gap: 15px;
+    margin-bottom: 53px;
+
+    &__title {
+      @include title;
+    }
+
+    &__subtitle {
+      @include subtitle;
+    }
+
+    &__option {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      border: 3px solid transparent;
+      border-radius: 12px;
+      padding: 10px;
+      cursor: pointer;
+      transition: border 0.2s ease, transform 0.2s ease;
+
+      &.selected {
+        @include selected;
+      }
+
+      &:hover {
+        transform: scale(1.05);
+      }
+
+      &__image {
+        width: 144px;
+        height: 176px;
+        object-fit: cover;
+      }
+    }
+  }
+}
