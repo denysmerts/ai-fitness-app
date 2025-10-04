@@ -1,0 +1,21 @@
+@use "../../styles//mixins" as *;
+
+.weight-goal-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &__title {
+    @include title;
+  }
+
+  &__subtitle {
+    @include subtitle;
+  }
+
+  &__error {
+    color: red;
+    font-size: 13px;
+    font-weight: 500;
+  }
+}

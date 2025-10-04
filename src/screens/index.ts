@@ -5,3 +5,7 @@ export * from "./GoalScreen";
 export * from "./AimScreen";
 export * from "./EnviromentScreen";
 export * from "./ConditionsScreen";
+export * from "./HeightScreen";
+export * from "./WeightScreen";
+export * from "./WeightGoalScreen";
+export * from "./FitnessLevelScreen";

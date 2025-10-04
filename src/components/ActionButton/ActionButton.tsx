@@ -1,17 +1,25 @@
-import './ActionButton.scss'
+import "./ActionButton.scss";
 
 interface ActionButtonProps {
   onClick?: () => void;
-  type?: 'home' | 'select'; 
+  disabled?: boolean;
+  type?: "home" | "select";
 }
 
-export const ActionButton = ({ onClick, type = 'select' }: ActionButtonProps) => {
+export const ActionButton = ({
+  onClick,
+  disabled = false,
+  type = "select",
+}: ActionButtonProps) => {
   return (
-    <div 
-      className={`action-button ${type}`} 
+    <button
+      className={`action-button ${type} ${
+        disabled ? "action-button--disabled" : ""
+      }`}
       onClick={onClick}
+      disabled={disabled}
     >
-      {type === 'home' ? 'Get Started' : 'Select'}
-    </div>
-  )
-}
+      {type === "home" ? "Get Started" : "Select"}
+    </button>
+  );
+};

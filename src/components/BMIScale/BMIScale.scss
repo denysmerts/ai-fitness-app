@@ -1,0 +1,39 @@
+.bmi-scale {
+  width: 321px;
+  max-width: 400px;
+  margin: 20px auto;
+  position: relative;
+
+  &__bar {
+    display: flex;
+    height: 12px;
+    border-radius: 6px;
+    overflow: hidden;
+
+    &__segment {
+      flex: 1;
+    }
+
+    &__pointer {
+      position: absolute;
+      top: -20px;
+      transform: translateX(-50%);
+      width: 20px;
+      height: 20px;
+      transition: left 0.4s ease;
+      z-index: 10;
+    }
+
+    &__labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      margin-top: 6px;
+      color: #333;
+      &__label {
+        text-align: center;
+        flex: 1;
+      }
+    }
+  }
+}

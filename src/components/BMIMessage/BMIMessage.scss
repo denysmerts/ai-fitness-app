@@ -1,0 +1,43 @@
+.bmi-message {
+  display: flex;
+  flex-direction: column;
+  width: 335px;
+  height: auto;
+  border-radius: 15px;
+  padding: 15px 10px;
+  color: white;
+
+  &.underweight {
+    background-color: #ffa62b;
+  }
+
+  &.normal {
+    background-color: #1ea896;
+  }
+
+  &.overweight {
+    background-color: #ff1b1c;
+  }
+
+  &__subtext {
+    font-size: 12px;
+    text-align: left;
+  }
+
+  &__title-wrapper {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    margin-bottom: 10px;
+
+    &__text {
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    &__icon {
+      width: 20px;
+      height: 20px;
+    }
+  }
+}
