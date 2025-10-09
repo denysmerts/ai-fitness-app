@@ -5,7 +5,10 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  max-height: 100vh;
+  min-height: 100svh;
+  padding-bottom: 20vw;
+  box-sizing: border-box;
+  overflow: hidden;
 
   &__image {
     max-width: 100%;
@@ -17,5 +20,6 @@
 
   &__subtitle {
     @include subtitle;
+    margin-bottom: 10vw;
   }
 }

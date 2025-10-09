@@ -11,7 +11,11 @@ interface FitnessLevelScreenProps {
   goal?: string;
 }
 
-export const FitnessLevelScreen = ({ bmi, goal }: FitnessLevelScreenProps) => {
+export const FitnessLevelScreen = ({
+  bmi,
+  goal,
+  onNext,
+}: FitnessLevelScreenProps) => {
   const goalLabel =
     goal === "muscle"
       ? "Muscle Gain"
@@ -86,7 +90,12 @@ export const FitnessLevelScreen = ({ bmi, goal }: FitnessLevelScreenProps) => {
         adults, a healthy BMI falls between 18.5 and 24.9.
       </div>
 
-      <ActionButton type="select" />
+      <ActionButton
+        type="select"
+        onClick={() => {
+          onNext();
+        }}
+      />
     </div>
   );
 };

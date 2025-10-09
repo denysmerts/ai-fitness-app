@@ -4,20 +4,21 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding-bottom: 20vw;
 
   &__wrapper {
     display: flex;
     flex-direction: column;
-    gap: 15px;
-    margin-bottom: 60px;
+    gap: 3.82vw;
+    margin-bottom: 15.27vw;
 
     &__option {
       display: flex;
       align-items: center;
-      gap: 15px;
-      padding: 10px;
-      border: 1px solid black;
-      border-radius: 18px;
+      gap: 3.82vw;
+      padding: 2.54vw;
+      border: 0.25vw solid black;
+      border-radius: 4.58vw;
       transition: border 0.2s ease, transform 0.2s ease;
 
       &.selected {
@@ -32,40 +33,40 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 60px;
-        height: 60px;
+        width: 15.27vw;
+        height: 15.27vw;
         background-color: #eaf2ff;
-        border-radius: 7px;
+        border-radius: 1.78vw;
 
         &__image {
-          width: 40px;
-          height: 40px;
+          width: 10.18vw;
+          height: 10.18vw;
         }
       }
 
       &__label {
-        font-size: 19px;
+        font-size: 4.83vw;
         font-weight: 600;
       }
 
       &.muscle {
         .goal-screen__wrapper__option__image-wrapper__image {
-          width: 30px;
-          height: 43px;
+          width: 7.63vw;
+          height: 10.94vw;
         }
       }
 
       &.fit {
         .goal-screen__wrapper__option__image-wrapper__image {
-          width: 48px;
-          height: 36px;
+          width: 12.21vw;
+          height: 9.16vw;
         }
       }
 
       &.weight {
         .goal-screen__wrapper__option__image-wrapper__image {
-          width: 47px;
-          height: 44px;
+          width: 11.96vw;
+          height: 11.2vw;
         }
       }
     }
@@ -77,5 +78,6 @@
 
   &__subtitle {
     @include subtitle;
+    margin-bottom: 10vw;
   }
 }

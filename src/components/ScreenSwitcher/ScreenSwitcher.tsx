@@ -11,6 +11,7 @@ import {
   WeightGoalScreen,
   FitnessLevelScreen,
 } from "../../screens";
+import { AiFitnessForm } from "../../screens/AiFitnessForm";
 import { useState } from "react";
 import { calculateBmi } from "../../utils/bmi";
 
@@ -27,6 +28,7 @@ export const ScreenSwitcher = () => {
     | "weight"
     | "goal-weight"
     | "result"
+    | "finale"
   >("home");
 
   const [height, setHeight] = useState<{ value: number; unit: "cm" | "ft" }>();
@@ -95,11 +97,12 @@ export const ScreenSwitcher = () => {
       )}
       {screen === "result" && bmi !== null && (
         <FitnessLevelScreen
-          onNext={() => setScreen("result")}
+          onNext={() => setScreen("finale")}
           bmi={bmi}
           goal={goal}
         />
       )}
+      {screen === "finale" && bmi !== null && <AiFitnessForm />}
     </div>
   );
 };

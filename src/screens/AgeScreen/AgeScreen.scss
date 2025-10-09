@@ -6,30 +6,34 @@
   justify-content: center;
   align-items: center;
   text-align: center;
-  height: 100vh;
+  min-height: 100svh;
+  padding-bottom: 20vw;
 
   &__wrapper {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    column-gap: 30px;
-    row-gap: 15px;
-    margin-bottom: 53px;
+    column-gap: 1.27vw;
+    row-gap: 1.27vw;
+
+    justify-items: center;
 
     &__title {
       @include title;
+      margin-top: 1vw;
     }
 
     &__subtitle {
       @include subtitle;
+      margin-bottom: 10vw;
     }
 
     &__option {
       display: flex;
       flex-direction: column;
       align-items: center;
-      border: 3px solid transparent;
-      border-radius: 12px;
-      padding: 10px;
+      border: 0.76vw solid transparent;
+      border-radius: 3.05vw;
+      padding: 2.54vw;
       cursor: pointer;
       transition: border 0.2s ease, transform 0.2s ease;
 
@@ -42,8 +46,8 @@
       }
 
       &__image {
-        width: 144px;
-        height: 176px;
+        width: 35vw;
+        height: 42vw;
         object-fit: cover;
       }
     }

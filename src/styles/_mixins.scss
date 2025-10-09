@@ -1,16 +1,15 @@
 @mixin title {
-  font-size: 32px;
+  font-size: 8.14vw;
   font-weight: bold;
-  margin-bottom: 5px;
+  margin-bottom: 1.27vw;
 }
 
 @mixin subtitle {
-  font-size: 15px;
+  font-size: 3.82vw;
   font-weight: 400;
-  margin-bottom: 100px;
 }
 
 @mixin selected {
-  border: 3px solid #007bff;
+  border: 0.76vw solid #007bff;
   background-color: rgba(0, 123, 255, 0.1);
 }
