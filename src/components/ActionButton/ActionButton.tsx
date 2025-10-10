@@ -3,7 +3,7 @@ import "./ActionButton.scss";
 interface ActionButtonProps {
   onClick?: () => void;
   disabled?: boolean;
-  type?: "home" | "select";
+  type?: "home" | "select" | "generate";
 }
 
 export const ActionButton = ({
@@ -11,6 +11,11 @@ export const ActionButton = ({
   disabled = false,
   type = "select",
 }: ActionButtonProps) => {
+  let buttonText = "Select";
+
+  if (type === "home") buttonText = "Get Started";
+  else if (type === "generate") buttonText = "Generate Workout";
+
   return (
     <button
       className={`action-button ${type} ${
@@ -19,7 +24,7 @@ export const ActionButton = ({
       onClick={onClick}
       disabled={disabled}
     >
-      {type === "home" ? "Get Started" : "Select"}
+      {buttonText}
     </button>
   );
 };

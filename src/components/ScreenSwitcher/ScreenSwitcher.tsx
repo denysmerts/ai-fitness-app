@@ -15,6 +15,24 @@ import { AiFitnessForm } from "../../screens/AiFitnessForm";
 import { useState } from "react";
 import { calculateBmi } from "../../utils/bmi";
 
+type UserInput = {
+  sex: number;
+  age: number;
+  height: number;
+  weight: number;
+  hypertension: number;
+  diabetes: number;
+  fitness_goal: number;
+  fitness_type: number;
+};
+
+type Predictions = {
+  exercises: string;
+  equipment: string;
+  diet: string;
+  recommendation: string;
+};
+
 export const ScreenSwitcher = () => {
   const [screen, setScreen] = useState<
     | "home"
@@ -44,6 +62,10 @@ export const ScreenSwitcher = () => {
     diabetes: 0 | 1;
   } | null>(null);
 
+  const [predictions, setPredictions] = useState<Predictions | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
   const bmi =
     height && currentWeight
       ? calculateBmi(
@@ -56,6 +78,45 @@ export const ScreenSwitcher = () => {
 
   const fitnessGoalNumeric = goal === "gain" ? 1 : 0;
 
+  const generateAiRecommendations = async () => {
+    if (!height || !currentWeight || !gender || !age || !goal || !conditions)
+      return;
+
+    const input: UserInput = {
+      sex: gender,
+      age: age,
+      height: height.value,
+      weight: currentWeight.value,
+      hypertension: conditions.hypertension,
+      diabetes: conditions.diabetes,
+      fitness_goal: fitnessGoalNumeric,
+      fitness_type: 0,
+    };
+
+    setLoading(true);
+    setError(null);
+    setPredictions(null);
+
+    try {
+      const res = await fetch("http://127.0.0.1:5000/predict", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(input),
+      });
+
+      const data = await res.json();
+      if (data.success) setPredictions(data.predictions);
+      else setError(data.error || "Something went wrong");
+
+      // move to finale screen automatically after fetch
+      setScreen("finale");
+    } catch (err) {
+      setError("Failed to connect to server");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div>
       {screen === "home" && <HomeScreen onNext={() => setScreen("age")} />}
@@ -64,7 +125,6 @@ export const ScreenSwitcher = () => {
           onNext={(numericAge) => {
             setAge(numericAge);
             setScreen("gender");
-            console.log(numericAge);
           }}
         />
       )}
@@ -72,7 +132,6 @@ export const ScreenSwitcher = () => {
         <GenderScreen
           onNext={(selectedGenderValue) => {
             setGender(selectedGenderValue);
-            console.log(selectedGenderValue);
             setScreen("goal");
           }}
         />
@@ -82,7 +141,6 @@ export const ScreenSwitcher = () => {
           onNext={(selectedGoal) => {
             setGoal(selectedGoal);
             setScreen("physique");
-            console.log(fitnessGoalNumeric);
           }}
         />
       )}
@@ -97,33 +155,26 @@ export const ScreenSwitcher = () => {
           onNext={(selectedConditions) => {
             setConditions(selectedConditions);
             setScreen("height");
-            console.log(selectedConditions);
           }}
         />
       )}
       {screen === "height" && (
         <HeightScreen
           onNext={(h) => {
-            // always pass cm for AI
             setHeight({ value: h.value, unit: "cm" });
             setScreen("weight");
-            console.log(h.value);
           }}
         />
       )}
-
       {screen === "weight" && height && (
         <WeightScreen
           height={height}
           onNext={(w) => {
-            // w.unit is always "kg" now
             setCurrentWeight(w);
             setScreen("goal-weight");
-            console.log("Weight (kg):", w.value);
           }}
         />
       )}
-
       {screen === "goal-weight" && height && currentWeight && (
         <WeightGoalScreen
           height={height}
@@ -133,32 +184,20 @@ export const ScreenSwitcher = () => {
       )}
       {screen === "result" && bmi !== null && (
         <FitnessLevelScreen
-          onNext={() => setScreen("finale")}
           bmi={bmi}
-          goal={goal ?? undefined} // convert null to undefined
+          goal={goal ?? undefined}
+          onNext={() => setScreen("finale")}
+          onGenerate={generateAiRecommendations}
+          loading={loading}
         />
       )}
-      {screen === "finale" &&
-        bmi !== null &&
-        age !== null &&
-        gender !== null &&
-        height &&
-        currentWeight &&
-        conditions &&
-        goal && (
-          <AiFitnessForm
-            userInput={{
-              sex: gender,
-              age: age,
-              height: height.value,
-              weight: currentWeight.value,
-              hypertension: conditions.hypertension,
-              diabetes: conditions.diabetes,
-              fitness_goal: fitnessGoalNumeric,
-              fitness_type: 0,
-            }}
-          />
-        )}
+      {screen === "finale" && (
+        <AiFitnessForm
+          predictions={predictions}
+          error={error}
+          loading={loading}
+        />
+      )}
     </div>
   );
 };

@@ -9,12 +9,16 @@ interface FitnessLevelScreenProps {
   onNext: () => void;
   bmi: number;
   goal?: string;
+  onGenerate: () => void;
+  loading: boolean;
 }
 
 export const FitnessLevelScreen = ({
   bmi,
   goal,
   onNext,
+  onGenerate,
+  loading,
 }: FitnessLevelScreenProps) => {
   const goalLabel =
     goal === "muscle"
@@ -90,12 +94,7 @@ export const FitnessLevelScreen = ({
         adults, a healthy BMI falls between 18.5 and 24.9.
       </div>
 
-      <ActionButton
-        type="select"
-        onClick={() => {
-          onNext();
-        }}
-      />
+      <ActionButton type="generate" onClick={onGenerate} disabled={loading} />
     </div>
   );
 };
