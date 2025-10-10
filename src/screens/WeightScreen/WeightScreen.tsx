@@ -5,7 +5,7 @@ import { calculateBmi } from "../../utils/bmi";
 import "./WeightScreen.scss";
 
 interface WeightScreenProps {
-  onNext: (weight: { value: number; unit: "lbs" | "kg" }) => void;
+  onNext: (weight: { value: number; unit: "kg" | "lbs" }) => void;
   height: { value: number; unit: "cm" | "ft" };
 }
 
@@ -18,7 +18,9 @@ export const WeightScreen = ({ onNext, height }: WeightScreenProps) => {
 
   const handleSubmit = () => {
     if (!valid) return;
-    onNext({ value: numericValue, unit });
+    // always send kg to AI
+    const valueInKg = unit === "kg" ? numericValue : numericValue * 0.453592;
+    onNext({ value: valueInKg, unit: "kg" });
   };
 
   let bmi: number | null = null;

@@ -7,14 +7,14 @@ import Age4 from "../../assets/img/age4.png";
 import "./AgeScreen.scss";
 
 interface AgeScreenProps {
-  onNext: (selectedAge: string) => void;
+  onNext: (age: number) => void; // pass numeric value to AI
 }
 
 const ageOptions = [
-  { id: "age1", src: Age1, label: "18-25" },
-  { id: "age2", src: Age2, label: "26-35" },
-  { id: "age3", src: Age3, label: "36-45" },
-  { id: "age4", src: Age4, label: "46+" },
+  { id: "age1", src: Age1, label: "18-25", value: 21 }, // average of 18-25
+  { id: "age2", src: Age2, label: "26-35", value: 30 }, // average of 26-35
+  { id: "age3", src: Age3, label: "36-45", value: 40 }, // average of 36-45
+  { id: "age4", src: Age4, label: "46+", value: 50 }, // approximate average
 ];
 
 export const AgeScreen = ({ onNext }: AgeScreenProps) => {
@@ -22,6 +22,19 @@ export const AgeScreen = ({ onNext }: AgeScreenProps) => {
 
   const handleSelect = (id: string) => {
     setSelectedAge(id);
+  };
+
+  const handleNext = () => {
+    if (!selectedAge) {
+      alert("Please select an age group first!");
+      return;
+    }
+    const selectedOption = ageOptions.find(
+      (option) => option.id === selectedAge
+    );
+    if (selectedOption) {
+      onNext(selectedOption.value); // pass numeric average
+    }
   };
 
   return (
@@ -48,15 +61,7 @@ export const AgeScreen = ({ onNext }: AgeScreenProps) => {
       <div className="age-screen__wrapper__subtitle">
         This choice will reflect on your workout plan
       </div>
-      <ActionButton
-        onClick={() => {
-          if (selectedAge) {
-            onNext(selectedAge);
-          } else {
-            alert("Please select an age group first!");
-          }
-        }}
-      />
+      <ActionButton onClick={handleNext} />
     </div>
   );
 };

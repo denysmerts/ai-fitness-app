@@ -6,7 +6,7 @@ import ScaleImage from "../../assets/svg/weight-scale.png";
 import "./GoalScreen.scss";
 
 interface GoalScreenProps {
-  onNext: (selectedGoal: string) => void;
+  onNext: (selectedGoal: "gain" | "loss") => void;
 }
 
 const goalOptions = [
@@ -20,6 +20,10 @@ export const GoalScreen = ({ onNext }: GoalScreenProps) => {
 
   const handleSelect = (id: string) => {
     setSelectedGoal(id);
+  };
+
+  const mapGoalToAi = (goalId: string): "gain" | "loss" => {
+    return goalId === "muscle" ? "gain" : "loss";
   };
 
   return (
@@ -56,7 +60,7 @@ export const GoalScreen = ({ onNext }: GoalScreenProps) => {
       <ActionButton
         onClick={() => {
           if (selectedGoal) {
-            onNext(selectedGoal);
+            onNext(mapGoalToAi(selectedGoal));
           } else {
             alert("Please select a goal first!");
           }

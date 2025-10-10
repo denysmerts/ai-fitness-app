@@ -32,11 +32,17 @@ export const ScreenSwitcher = () => {
   >("home");
 
   const [height, setHeight] = useState<{ value: number; unit: "cm" | "ft" }>();
-  const [goal, setGoal] = useState<string>();
+  const [goal, setGoal] = useState<"gain" | "loss" | null>(null);
   const [currentWeight, setCurrentWeight] = useState<{
     value: number;
     unit: "kg" | "lbs";
   }>();
+  const [gender, setGender] = useState<number | null>(null);
+  const [age, setAge] = useState<number | null>(null);
+  const [conditions, setConditions] = useState<{
+    hypertension: 0 | 1;
+    diabetes: 0 | 1;
+  } | null>(null);
 
   const bmi =
     height && currentWeight
@@ -48,20 +54,38 @@ export const ScreenSwitcher = () => {
         )
       : null;
 
+  const fitnessGoalNumeric = goal === "gain" ? 1 : 0;
+
   return (
     <div>
       {screen === "home" && <HomeScreen onNext={() => setScreen("age")} />}
-      {screen === "age" && <AgeScreen onNext={() => setScreen("gender")} />}
-      {screen === "gender" && <GenderScreen onNext={() => setScreen("goal")} />}
+      {screen === "age" && (
+        <AgeScreen
+          onNext={(numericAge) => {
+            setAge(numericAge);
+            setScreen("gender");
+            console.log(numericAge);
+          }}
+        />
+      )}
+      {screen === "gender" && (
+        <GenderScreen
+          onNext={(selectedGenderValue) => {
+            setGender(selectedGenderValue);
+            console.log(selectedGenderValue);
+            setScreen("goal");
+          }}
+        />
+      )}
       {screen === "goal" && (
         <GoalScreen
           onNext={(selectedGoal) => {
             setGoal(selectedGoal);
             setScreen("physique");
+            console.log(fitnessGoalNumeric);
           }}
         />
       )}
-
       {screen === "physique" && (
         <AimScreen onNext={() => setScreen("environment")} />
       )}
@@ -69,25 +93,37 @@ export const ScreenSwitcher = () => {
         <EnviromentScreen onNext={() => setScreen("conditions")} />
       )}
       {screen === "conditions" && (
-        <ConditionsScreen onNext={() => setScreen("height")} />
+        <ConditionsScreen
+          onNext={(selectedConditions) => {
+            setConditions(selectedConditions);
+            setScreen("height");
+            console.log(selectedConditions);
+          }}
+        />
       )}
       {screen === "height" && (
         <HeightScreen
           onNext={(h) => {
-            setHeight(h);
+            // always pass cm for AI
+            setHeight({ value: h.value, unit: "cm" });
             setScreen("weight");
+            console.log(h.value);
           }}
         />
       )}
+
       {screen === "weight" && height && (
         <WeightScreen
           height={height}
           onNext={(w) => {
+            // w.unit is always "kg" now
             setCurrentWeight(w);
             setScreen("goal-weight");
+            console.log("Weight (kg):", w.value);
           }}
         />
       )}
+
       {screen === "goal-weight" && height && currentWeight && (
         <WeightGoalScreen
           height={height}
@@ -99,10 +135,30 @@ export const ScreenSwitcher = () => {
         <FitnessLevelScreen
           onNext={() => setScreen("finale")}
           bmi={bmi}
-          goal={goal}
+          goal={goal ?? undefined} // convert null to undefined
         />
       )}
-      {screen === "finale" && bmi !== null && <AiFitnessForm />}
+      {screen === "finale" &&
+        bmi !== null &&
+        age !== null &&
+        gender !== null &&
+        height &&
+        currentWeight &&
+        conditions &&
+        goal && (
+          <AiFitnessForm
+            userInput={{
+              sex: gender,
+              age: age,
+              height: height.value,
+              weight: currentWeight.value,
+              hypertension: conditions.hypertension,
+              diabetes: conditions.diabetes,
+              fitness_goal: fitnessGoalNumeric,
+              fitness_type: 0,
+            }}
+          />
+        )}
     </div>
   );
 };

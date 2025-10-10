@@ -8,15 +8,15 @@ interface HeightScreenProps {
 }
 
 export const HeightScreen = ({ onNext }: HeightScreenProps) => {
-  const [unit, setUnit] = useState<"cm" | "ft">("cm");
+  const [unit, setUnit] = useState<"cm" | "ft">("cm"); // keep UI
   const [heightValue, setHeightValue] = useState<string>("");
 
   const numericValue = Number(heightValue);
-  const valid = heightValue !== "" && isValidHeight(numericValue, unit);
+  const valid = heightValue !== "" && isValidHeight(numericValue, "cm"); // always check cm
 
   const handleSubmit = () => {
     if (!valid) return;
-    onNext({ value: numericValue, unit });
+    onNext({ value: numericValue, unit: "cm" }); // always pass cm
   };
 
   return (
@@ -26,7 +26,7 @@ export const HeightScreen = ({ onNext }: HeightScreenProps) => {
         onChange={setHeightValue}
         placeholder={unit === "cm" ? "170" : "5"}
         unit={unit}
-        onUnitChange={(u) => setUnit(u as "cm" | "ft")}
+        onUnitChange={(u) => setUnit(u as "cm" | "ft")} // keep UI
         unitOptions={["cm", "ft"]}
         isError={!valid && heightValue !== ""}
       />

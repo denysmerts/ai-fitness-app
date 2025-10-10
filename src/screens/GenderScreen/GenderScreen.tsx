@@ -5,19 +5,19 @@ import FemaleImg from "../../assets/img/female.png";
 import "./GenderScreen.scss";
 
 interface GenderScreenProps {
-  onNext: (selectedGender: string) => void;
+  onNext: (selectedGenderValue: number) => void;
 }
 
 const genderOptions = [
-  { id: "male", src: MaleImg, label: "Male" },
-  { id: "female", src: FemaleImg, label: "Female" },
+  { id: "male", src: MaleImg, label: "Male", value: 0 },
+  { id: "female", src: FemaleImg, label: "Female", value: 1 },
 ];
 
 export const GenderScreen = ({ onNext }: GenderScreenProps) => {
-  const [selectedGender, setSelectedGender] = useState<string | null>(null);
+  const [selectedGender, setSelectedGender] = useState<number | null>(null);
 
-  const handleSelect = (id: string) => {
-    setSelectedGender(id);
+  const handleSelect = (value: number) => {
+    setSelectedGender(value);
   };
 
   return (
@@ -27,9 +27,9 @@ export const GenderScreen = ({ onNext }: GenderScreenProps) => {
           <div
             key={gender.id}
             className={`gender-screen__wrapper__option ${
-              selectedGender === gender.id ? "selected" : ""
+              selectedGender === gender.value ? "selected" : ""
             }`}
-            onClick={() => handleSelect(gender.id)}
+            onClick={() => handleSelect(gender.value)}
           >
             <img
               className="gender-screen__wrapper__option__image"
@@ -50,7 +50,7 @@ export const GenderScreen = ({ onNext }: GenderScreenProps) => {
 
       <ActionButton
         onClick={() => {
-          if (selectedGender) {
+          if (selectedGender !== null) {
             onNext(selectedGender);
           } else {
             alert("Please select a gender first!");

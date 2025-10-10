@@ -5,7 +5,7 @@ import ShieldImage from "../../assets/img/shield.png";
 import "./ConditionsScreen.scss";
 
 interface ConditionsScreenProps {
-  onNext: (selectedConditions: string) => void;
+  onNext: (conditions: { hypertension: 0 | 1; diabetes: 0 | 1 }) => void;
 }
 
 const conditionsScreenOptions = [
@@ -21,6 +21,20 @@ export const ConditionsScreen = ({ onNext }: ConditionsScreenProps) => {
 
   const handleSelect = (id: string) => {
     setSelectedConditions(id);
+  };
+
+  const handleNext = () => {
+    if (!selectedConditions) {
+      alert("Please select an option first!");
+      return;
+    }
+
+    const conditions = {
+      hypertension: (selectedConditions === "hypertension" ? 1 : 0) as 0 | 1,
+      diabetes: (selectedConditions === "diabetes" ? 1 : 0) as 0 | 1,
+    };
+
+    onNext(conditions);
   };
 
   return (
@@ -43,7 +57,6 @@ export const ConditionsScreen = ({ onNext }: ConditionsScreenProps) => {
                 />
               </div>
             )}
-
             <div className="conditions-screen__wrapper__option__label">
               {conditions.label}
             </div>
@@ -56,15 +69,7 @@ export const ConditionsScreen = ({ onNext }: ConditionsScreenProps) => {
         This choice will reflect on your workout plan
       </div>
 
-      <ActionButton
-        onClick={() => {
-          if (selectedConditions) {
-            onNext(selectedConditions);
-          } else {
-            alert("Please select an option first!");
-          }
-        }}
-      />
+      <ActionButton onClick={handleNext} />
     </div>
   );
 };
