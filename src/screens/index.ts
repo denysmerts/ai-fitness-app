@@ -2,7 +2,7 @@ export * from "./HomeScreen";
 export * from "./AgeScreen";
 export * from "./GenderScreen";
 export * from "./GoalScreen";
-export * from "./AimScreen";
+export * from "./FitnessTypeScreen";
 export * from "./EnviromentScreen";
 export * from "./ConditionsScreen";
 export * from "./HeightScreen";

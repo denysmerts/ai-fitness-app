@@ -2,7 +2,6 @@ import { useState } from "react";
 import { ActionButton } from "../../components/ActionButton";
 import KettleBellImage from "../../assets/svg/kettle-bell.svg";
 import YogaMatImage from "../../assets/svg/yoga-mat.svg";
-import ScaleImage from "../../assets/svg/weight-scale.png";
 import "./GoalScreen.scss";
 
 interface GoalScreenProps {
@@ -10,9 +9,18 @@ interface GoalScreenProps {
 }
 
 const goalOptions = [
-  { id: "muscle", src: KettleBellImage, label: "Build Muscle & Strength" },
-  { id: "fit", src: YogaMatImage, label: "Get Fit & Look Toned" },
-  { id: "weight", src: ScaleImage, label: "Lose Weight & Burn Fat" },
+  {
+    id: "muscle",
+    src: KettleBellImage,
+    label: "Build Muscle & Strength",
+    value: "gain",
+  },
+  {
+    id: "fit",
+    src: YogaMatImage,
+    label: "Get Fit & Look Toned",
+    value: "loss",
+  },
 ];
 
 export const GoalScreen = ({ onNext }: GoalScreenProps) => {
@@ -20,10 +28,6 @@ export const GoalScreen = ({ onNext }: GoalScreenProps) => {
 
   const handleSelect = (id: string) => {
     setSelectedGoal(id);
-  };
-
-  const mapGoalToAi = (goalId: string): "gain" | "loss" => {
-    return goalId === "muscle" ? "gain" : "loss";
   };
 
   return (
@@ -60,7 +64,8 @@ export const GoalScreen = ({ onNext }: GoalScreenProps) => {
       <ActionButton
         onClick={() => {
           if (selectedGoal) {
-            onNext(mapGoalToAi(selectedGoal));
+            const selected = goalOptions.find((g) => g.id === selectedGoal);
+            if (selected) onNext(selected.value as "gain" | "loss");
           } else {
             alert("Please select a goal first!");
           }

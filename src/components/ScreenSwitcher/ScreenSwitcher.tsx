@@ -3,8 +3,8 @@ import {
   AgeScreen,
   GenderScreen,
   GoalScreen,
-  AimScreen,
   EnviromentScreen,
+  FitnessTypeScreen,
   ConditionsScreen,
   HeightScreen,
   WeightScreen,
@@ -65,6 +65,7 @@ export const ScreenSwitcher = () => {
   const [predictions, setPredictions] = useState<Predictions | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [fitnessType, setFitnessType] = useState<number | null>(null);
 
   const bmi =
     height && currentWeight
@@ -76,11 +77,36 @@ export const ScreenSwitcher = () => {
         )
       : null;
 
-  const fitnessGoalNumeric = goal === "gain" ? 1 : 0;
-
   const generateAiRecommendations = async () => {
-    if (!height || !currentWeight || !gender || !age || !goal || !conditions)
+    console.log("🔍 Checking input values before sending:");
+    console.log("height:", height);
+    console.log("currentWeight:", currentWeight);
+    console.log("gender:", gender);
+    console.log("age:", age);
+    console.log("goal:", goal);
+    console.log("conditions:", conditions);
+
+    if (!height) console.warn("❌ Missing: height");
+    if (!currentWeight) console.warn("❌ Missing: currentWeight");
+    if (!gender) console.warn("❌ Missing: gender");
+    if (!age) console.warn("❌ Missing: age");
+    if (!goal) console.warn("❌ Missing: goal");
+    if (!conditions) console.warn("❌ Missing: conditions");
+
+    if (
+      !height ||
+      !currentWeight ||
+      gender === null ||
+      age === null ||
+      !goal ||
+      !conditions
+    ) {
+      console.warn("⚠️ Missing required fields. Aborting request.");
+      alert(
+        "Please complete all previous steps before generating your workout!"
+      );
       return;
+    }
 
     const input: UserInput = {
       sex: gender,
@@ -89,9 +115,11 @@ export const ScreenSwitcher = () => {
       weight: currentWeight.value,
       hypertension: conditions.hypertension,
       diabetes: conditions.diabetes,
-      fitness_goal: fitnessGoalNumeric,
-      fitness_type: 0,
+      fitness_goal: goal === "gain" ? 1 : 0,
+      fitness_type: fitnessType ?? 0,
     };
+
+    console.log("📦 Sending input to API:", input);
 
     setLoading(true);
     setError(null);
@@ -105,12 +133,17 @@ export const ScreenSwitcher = () => {
       });
 
       const data = await res.json();
-      if (data.success) setPredictions(data.predictions);
-      else setError(data.error || "Something went wrong");
+      console.log("✅ API response:", data);
 
-      // move to finale screen automatically after fetch
+      if (data.success) setPredictions(data.predictions);
+      else {
+        console.error("❌ API returned error:", data.error);
+        setError(data.error || "Something went wrong");
+      }
+
       setScreen("finale");
     } catch (err) {
+      console.error("❌ Fetch error:", err);
       setError("Failed to connect to server");
     } finally {
       setLoading(false);
@@ -145,11 +178,18 @@ export const ScreenSwitcher = () => {
         />
       )}
       {screen === "physique" && (
-        <AimScreen onNext={() => setScreen("environment")} />
+        <FitnessTypeScreen
+          onNext={(selectedAimIndex) => {
+            // Save the selected aim (0 = cardio, 1 = muscular)
+            setFitnessType(selectedAimIndex);
+            setScreen("conditions");
+          }}
+        />
       )}
+      {/* 
       {screen === "environment" && (
         <EnviromentScreen onNext={() => setScreen("conditions")} />
-      )}
+      )} */}
       {screen === "conditions" && (
         <ConditionsScreen
           onNext={(selectedConditions) => {

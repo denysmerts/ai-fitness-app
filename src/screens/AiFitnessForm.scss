@@ -1,0 +1,44 @@
+.tit {
+  font-size: 50px;
+  font-weight: 300;
+  line-height: 60px;
+  margin-bottom: 50px;
+}
+
+.span {
+  font-weight: 400;
+}
+
+.image {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+}
+
+.oo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.op {
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.or {
+  font-size: 13px;
+  font-weight: 400px;
+  opacity: 50%;
+}
+
+.ooo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.item {
+  margin-bottom: 50px;
+}

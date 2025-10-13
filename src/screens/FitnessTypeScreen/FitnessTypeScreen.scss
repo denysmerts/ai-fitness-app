@@ -29,10 +29,14 @@
         transform: scale(1.05);
       }
 
-      &__image {
-        width: 60px;
-        height: 60px;
-        border-radius: 7px;
+      &.cardio .aim-screen__wrapper__option__image {
+        width: 33px;
+        height: 52px;
+      }
+
+      &.muscular .aim-screen__wrapper__option__image {
+        width: 50px;
+        height: 31px;
       }
 
       &__label {
@@ -50,4 +54,14 @@
     @include subtitle;
     margin-bottom: 10vw;
   }
+}
+
+.wr {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  background-color: #eaf2ff;
+  border-radius: 7px;
 }
