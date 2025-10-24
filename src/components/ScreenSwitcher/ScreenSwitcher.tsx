@@ -3,13 +3,13 @@ import {
   AgeScreen,
   GenderScreen,
   GoalScreen,
-  EnviromentScreen,
   FitnessTypeScreen,
   ConditionsScreen,
   HeightScreen,
   WeightScreen,
   WeightGoalScreen,
   FitnessLevelScreen,
+  DietScreen,
 } from "../../screens";
 import { AiFitnessForm } from "../../screens/AiFitnessForm";
 import { useState } from "react";
@@ -47,6 +47,7 @@ export const ScreenSwitcher = () => {
     | "goal-weight"
     | "result"
     | "finale"
+    | "diet" // ✅ add this
   >("home");
 
   const [height, setHeight] = useState<{ value: number; unit: "cm" | "ft" }>();
@@ -126,7 +127,7 @@ export const ScreenSwitcher = () => {
     setPredictions(null);
 
     try {
-      const res = await fetch("http://127.0.0.1:5000/predict", {
+      const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/predict`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(input),
@@ -236,7 +237,12 @@ export const ScreenSwitcher = () => {
           predictions={predictions}
           error={error}
           loading={loading}
+          onNext={() => setScreen("diet")} // ✅ navigate to diet
         />
+      )}
+
+      {screen === "diet" && (
+        <DietScreen predictions={predictions} error={error} loading={loading} />
       )}
     </div>
   );

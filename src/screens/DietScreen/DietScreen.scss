@@ -1,4 +1,23 @@
-.routine-screen {
+.diet-filters {
+  display: flex;
+  flex-direction: row;
+  white-space: nowrap;
+  font-weight: 600;
+  gap: 15px;
+  margin-bottom: 16px;
+}
+.diet-filter-btn {
+  font-size: 18px;
+  color: #808080;
+  border: none;
+  background-color: transparent;
+
+  &.active {
+    color: #000; // black background
+    border-bottom: 1px solid black;
+  }
+}
+.diet-screen {
   &__label {
     font-size: 50px;
     font-weight: 300;
@@ -60,24 +79,4 @@
 
 .span {
   font-weight: 400;
-}
-
-.workout-filters {
-  display: flex;
-  flex-direction: row;
-  white-space: nowrap;
-  font-weight: 600;
-  gap: 15px;
-  margin-bottom: 16px;
-}
-.workout-filter-btn {
-  font-size: 18px;
-  color: #808080;
-  border: none;
-  background-color: transparent;
-
-  &.active {
-    color: #000; // black background
-    border-bottom: 1px solid black;
-  }
 }

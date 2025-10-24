@@ -16,7 +16,6 @@ interface FitnessLevelScreenProps {
 export const FitnessLevelScreen = ({
   bmi,
   goal,
-  onNext,
   onGenerate,
   loading,
 }: FitnessLevelScreenProps) => {
