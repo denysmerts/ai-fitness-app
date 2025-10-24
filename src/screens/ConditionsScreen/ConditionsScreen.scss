@@ -5,7 +5,6 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding-bottom: 20vw;
 
   &__wrapper {
     display: flex;
@@ -65,6 +64,5 @@
 
   &__subtitle {
     @include subtitle;
-    margin-bottom: 10vw;
   }
 }

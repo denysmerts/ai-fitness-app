@@ -22,22 +22,6 @@
 
   &__subtitle {
     @include subtitle;
-    margin-bottom: 10vw;
     text-align: center;
-  }
-
-  // Mobile-specific adjustments
-  @media (max-width: 768px) {
-    &__title {
-      font-size: 6vw; // scale title for smaller screens
-    }
-
-    &__subtitle {
-      font-size: 4vw; // scale subtitle for smaller screens
-    }
-
-    &__image {
-      max-width: 90%; // reduce image size slightly for small screens
-    }
   }
 }

@@ -2,37 +2,38 @@
 
 .age-screen {
   display: flex;
+  width: 100%;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
   min-height: 100svh;
+  box-sizing: border-box; // ✅ prevents layout shifts
 
   &__wrapper {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    column-gap: 1.27vw;
-    row-gap: 1.27vw;
-
+    column-gap: 0px;
+    row-gap: 0px;
     justify-items: center;
 
     &__title {
       @include title;
-      margin-top: 1vw;
+      margin-top: 50px;
     }
 
     &__subtitle {
       @include subtitle;
-      margin-bottom: 10vw;
     }
 
     &__option {
       display: flex;
       flex-direction: column;
       align-items: center;
-      border: 0.76vw solid transparent;
-      border-radius: 3.05vw;
-      padding: 2.54vw;
+      border: 1px solid transparent;
+      border-radius: 25px;
+      padding: 5px;
+
       cursor: pointer;
       transition: border 0.2s ease, transform 0.2s ease;
 
@@ -45,8 +46,9 @@
       }
 
       &__image {
-        width: 35vw;
-        height: 42vw;
+        width: 150px;
+        height: 180px;
+        border-radius: 15px;
         object-fit: cover;
       }
     }

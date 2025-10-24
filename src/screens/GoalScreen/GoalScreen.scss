@@ -4,21 +4,19 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-bottom: 20vw;
 
   &__wrapper {
     display: flex;
     flex-direction: column;
-    gap: 3.82vw;
-    margin-bottom: 15.27vw;
+    gap: 15px;
 
     &__option {
       display: flex;
       align-items: center;
-      gap: 3.82vw;
-      padding: 2.54vw;
-      border: 0.25vw solid black;
-      border-radius: 4.58vw;
+      gap: 10px;
+      padding: 10px;
+      border: 1px solid black;
+      border-radius: 18px;
       transition: border 0.2s ease, transform 0.2s ease;
 
       &.selected {
@@ -33,40 +31,29 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 15.27vw;
-        height: 15.27vw;
+        width: 60px;
+        height: 60px;
         background-color: #eaf2ff;
-        border-radius: 1.78vw;
-
-        &__image {
-          width: 10.18vw;
-          height: 10.18vw;
-        }
+        border-radius: 7px;
       }
 
       &__label {
-        font-size: 4.83vw;
-        font-weight: 600;
+        font-size: 19px;
+        font-weight: 500;
+        white-space: nowrap;
       }
 
       &.muscle {
         .goal-screen__wrapper__option__image-wrapper__image {
-          width: 7.63vw;
-          height: 10.94vw;
+          width: 25px;
+          height: 36px;
         }
       }
 
       &.fit {
         .goal-screen__wrapper__option__image-wrapper__image {
-          width: 12.21vw;
-          height: 9.16vw;
-        }
-      }
-
-      &.weight {
-        .goal-screen__wrapper__option__image-wrapper__image {
-          width: 11.96vw;
-          height: 11.2vw;
+          width: 37px;
+          height: 28px;
         }
       }
     }
@@ -74,10 +61,10 @@
 
   &__title {
     @include title;
+    margin-top: 50px;
   }
 
   &__subtitle {
     @include subtitle;
-    margin-bottom: 10vw;
   }
 }

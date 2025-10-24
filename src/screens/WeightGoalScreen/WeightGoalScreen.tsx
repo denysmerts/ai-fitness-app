@@ -55,9 +55,7 @@ export const WeightGoalScreen = ({
         />
       )}
 
-      <div className="weight-goal-screen__title">
-        What’s your target weight?
-      </div>
+      <div className="weight-goal-screen__title">Target weight?</div>
       <div className="weight-goal-screen__subtitle">
         We’ll check if this goal is in a healthy range for your height
       </div>

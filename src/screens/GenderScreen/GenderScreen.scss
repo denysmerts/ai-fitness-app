@@ -8,7 +8,7 @@
   &__wrapper {
     display: flex;
     flex-direction: row;
-    gap: 3.82vw;
+    gap: 10px;
 
     &__option {
       cursor: pointer;
@@ -23,26 +23,25 @@
       }
 
       &__image {
-        width: 43vw;
-        height: 74.55vw;
-        border-radius: 6.36vw;
+        width: 150px;
+        height: 280px;
+        border-radius: 25px;
       }
 
       &__label {
-        margin-top: 2.54vw;
-        font-size: 6.11vw;
+        margin-top: 10px;
+        font-size: 24px;
         font-weight: 600;
       }
     }
   }
 
   &__title {
-    margin-top: 10vw;
+    margin-top: 50px;
     @include title;
   }
 
   &__subtitle {
     @include subtitle;
-    margin-bottom: 10vw;
   }
 }
