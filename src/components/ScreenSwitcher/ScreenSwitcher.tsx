@@ -14,6 +14,39 @@ import {
 import { AiFitnessForm } from "../../screens/AiFitnessForm";
 import { useState } from "react";
 import { calculateBmi } from "../../utils/bmi";
+import { ProgressBar } from "../ProgressionBar";
+
+// ✅ define the screen type explicitly
+type Screen =
+  | "home"
+  | "age"
+  | "gender"
+  | "goal"
+  | "physique"
+  | "environment"
+  | "conditions"
+  | "height"
+  | "weight"
+  | "goal-weight"
+  | "result"
+  | "finale"
+  | "diet";
+
+const stepMap: Record<Screen, number | null> = {
+  home: null,
+  age: 1,
+  gender: 2,
+  goal: 3,
+  physique: 4,
+  environment: 4,
+  conditions: 5,
+  height: 6,
+  weight: 7,
+  "goal-weight": 8,
+  result: 9,
+  finale: null,
+  diet: null,
+};
 
 type UserInput = {
   sex: number;
@@ -34,21 +67,7 @@ type Predictions = {
 };
 
 export const ScreenSwitcher = () => {
-  const [screen, setScreen] = useState<
-    | "home"
-    | "age"
-    | "gender"
-    | "goal"
-    | "physique"
-    | "environment"
-    | "conditions"
-    | "height"
-    | "weight"
-    | "goal-weight"
-    | "result"
-    | "finale"
-    | "diet" // ✅ add this
-  >("home");
+  const [screen, setScreen] = useState<Screen>("home");
 
   const [height, setHeight] = useState<{ value: number; unit: "cm" | "ft" }>();
   const [goal, setGoal] = useState<"gain" | "loss" | null>(null);
@@ -79,21 +98,6 @@ export const ScreenSwitcher = () => {
       : null;
 
   const generateAiRecommendations = async () => {
-    console.log("🔍 Checking input values before sending:");
-    console.log("height:", height);
-    console.log("currentWeight:", currentWeight);
-    console.log("gender:", gender);
-    console.log("age:", age);
-    console.log("goal:", goal);
-    console.log("conditions:", conditions);
-
-    if (!height) console.warn("❌ Missing: height");
-    if (!currentWeight) console.warn("❌ Missing: currentWeight");
-    if (!gender) console.warn("❌ Missing: gender");
-    if (!age) console.warn("❌ Missing: age");
-    if (!goal) console.warn("❌ Missing: goal");
-    if (!conditions) console.warn("❌ Missing: conditions");
-
     if (
       !height ||
       !currentWeight ||
@@ -102,7 +106,6 @@ export const ScreenSwitcher = () => {
       !goal ||
       !conditions
     ) {
-      console.warn("⚠️ Missing required fields. Aborting request.");
       alert(
         "Please complete all previous steps before generating your workout!"
       );
@@ -120,31 +123,30 @@ export const ScreenSwitcher = () => {
       fitness_type: fitnessType ?? 0,
     };
 
-    console.log("📦 Sending input to API:", input);
-
+    // ✅ Show finale screen immediately to render the LoadingScreen
+    setScreen("finale");
     setLoading(true);
     setError(null);
     setPredictions(null);
 
     try {
+      await new Promise((resolve) => setTimeout(resolve, 2000));
       const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/predict`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(input),
       });
 
+      console.log("🔹 API status:", res.status);
       const data = await res.json();
-      console.log("✅ API response:", data);
+      console.log("🔹 API raw response:", data);
 
-      if (data.success) setPredictions(data.predictions);
-      else {
-        console.error("❌ API returned error:", data.error);
+      if (data.success) {
+        setPredictions(data.predictions);
+      } else {
         setError(data.error || "Something went wrong");
       }
-
-      setScreen("finale");
-    } catch (err) {
-      console.error("❌ Fetch error:", err);
+    } catch {
       setError("Failed to connect to server");
     } finally {
       setLoading(false);
@@ -153,6 +155,9 @@ export const ScreenSwitcher = () => {
 
   return (
     <div>
+      {/* ✅ Add global progress bar */}
+      {stepMap[screen] && <ProgressBar currentStep={stepMap[screen]!} />}
+
       {screen === "home" && <HomeScreen onNext={() => setScreen("age")} />}
       {screen === "age" && (
         <AgeScreen
@@ -181,16 +186,11 @@ export const ScreenSwitcher = () => {
       {screen === "physique" && (
         <FitnessTypeScreen
           onNext={(selectedAimIndex) => {
-            // Save the selected aim (0 = cardio, 1 = muscular)
             setFitnessType(selectedAimIndex);
             setScreen("conditions");
           }}
         />
       )}
-      {/* 
-      {screen === "environment" && (
-        <EnviromentScreen onNext={() => setScreen("conditions")} />
-      )} */}
       {screen === "conditions" && (
         <ConditionsScreen
           onNext={(selectedConditions) => {
@@ -237,10 +237,9 @@ export const ScreenSwitcher = () => {
           predictions={predictions}
           error={error}
           loading={loading}
-          onNext={() => setScreen("diet")} // ✅ navigate to diet
+          onNext={() => setScreen("diet")}
         />
       )}
-
       {screen === "diet" && (
         <DietScreen predictions={predictions} error={error} loading={loading} />
       )}

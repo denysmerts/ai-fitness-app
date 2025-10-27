@@ -1,9 +1,10 @@
 import "./LoadingScreen.scss";
-import loading from "../../assets/svg/ring-resize.svg";
+import spinner from "../../assets/svg/spinner.svg";
 export const LoadingScreen = () => {
   return (
-    <div>
-      <img src={loading} alt="" />
+    <div className="loading-screen">
+      <img className="loading-screen__spinner" src={spinner} alt="" />
+      <div>Generating perfect workout recommendation that will suit you</div>
     </div>
   );
 };

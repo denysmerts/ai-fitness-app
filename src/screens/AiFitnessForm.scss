@@ -7,7 +7,6 @@
   }
 
   &__item {
-    margin-bottom: 50px;
     position: relative;
 
     &__image {
@@ -80,4 +79,10 @@
     color: #000; // black background
     border-bottom: 1px solid black;
   }
+}
+
+.ee {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }

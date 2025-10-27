@@ -1,0 +1,43 @@
+.progress-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 45px;
+}
+
+.progress-step {
+  display: flex;
+  align-items: center;
+  position: relative;
+
+  .dot {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background-color: #ccc;
+    transition: background-color 0.3s ease;
+
+    &.active {
+      background-color: orange;
+    }
+  }
+
+  .line {
+    width: 80px;
+    height: 4px;
+    background-color: #ddd;
+    margin: 0 3px;
+    position: relative;
+    border-radius: 2px;
+    overflow: hidden;
+
+    .line-fill {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      background-color: orange;
+      transition: width 0.4s ease;
+    }
+  }
+}

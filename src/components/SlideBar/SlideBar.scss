@@ -1,0 +1,68 @@
+.slide-bar {
+  width: 100%;
+  background: #fff;
+  border-radius: 12px;
+
+  transition: all 0.3s ease;
+  margin-bottom: 15px;
+  background-color: #eaf2ff;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    cursor: pointer;
+  }
+
+  &__title {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+
+    img {
+      width: 45px;
+      height: 45px;
+    }
+
+    .name {
+      font-weight: 600;
+      font-size: 18px;
+      color: #222;
+    }
+  }
+
+  &__arrow {
+    width: 22px;
+    height: 22px;
+    transition: transform 0.3s ease;
+
+    &.rotated {
+      transform: rotate(180deg);
+    }
+  }
+
+  &__content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, padding 0.3s ease;
+    padding: 0 1rem;
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0.5rem 0 1rem;
+      color: #555;
+
+      li {
+        padding: 0.4rem 0;
+        border-bottom: 1px solid #eee;
+      }
+    }
+
+    &.open {
+      max-height: 200px;
+      padding: 0 1rem 1rem;
+    }
+  }
+}

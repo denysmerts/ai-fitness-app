@@ -3,6 +3,7 @@ import fire from "../assets/svg/fire.svg";
 import { exerciseData } from "../data/exerciseData";
 import { formatData } from "../utils/formatData";
 import { LoadingScreen } from "./LoadingScreen";
+import { SlideBar } from "../components";
 import "./AiFitnessForm.scss";
 
 type Predictions = {
@@ -75,11 +76,12 @@ export const AiFitnessForm: React.FC<AiFitnessFormProps> = ({
           </button>
         ))}
       </div>
+      <SlideBar equipment={predictions?.equipment || null} />
 
       {predictions && (
         <>
           {filteredExercises.length > 0 ? (
-            <div>
+            <div className="ee">
               {filteredExercises.map((ex, i) => (
                 <div className="routine-screen__item" key={i}>
                   <img
