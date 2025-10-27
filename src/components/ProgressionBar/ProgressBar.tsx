@@ -7,13 +7,6 @@ interface ProgressBarProps {
 
 export const ProgressBar: React.FC<ProgressBarProps> = ({ currentStep }) => {
   const milestones = [1, 3, 6, 9]; // 4 dots
-  const totalSteps = milestones[milestones.length - 1]; // 9
-
-  // Determine which segment user is in
-  const currentSegment = milestones.findIndex((m, i) => {
-    const next = milestones[i + 1];
-    return currentStep >= m && (next ? currentStep < next : true);
-  });
 
   return (
     <div className="progress-container">

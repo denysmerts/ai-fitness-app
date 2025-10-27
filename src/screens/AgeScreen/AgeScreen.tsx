@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ActionButton, ProgressBar } from "../../components";
+import { ActionButton } from "../../components";
 import Age1 from "../../assets/img/age1.png";
 import Age2 from "../../assets/img/age2.png";
 import Age3 from "../../assets/img/age3.png";
