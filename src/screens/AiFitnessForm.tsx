@@ -2,6 +2,7 @@ import { useState } from "react";
 import fire from "../assets/svg/fire.svg";
 import { exerciseData } from "../data/exerciseData";
 import { formatData } from "../utils/formatData";
+import { LoadingScreen } from "./LoadingScreen";
 import "./AiFitnessForm.scss";
 
 type Predictions = {
@@ -30,13 +31,29 @@ export const AiFitnessForm: React.FC<AiFitnessFormProps> = ({
     ? formatData(predictions.exercises, exerciseData)
     : [];
 
-  // 🧭 Filter by type (Cardio | Physical)
   const filteredExercises =
     activeFilter === "All"
       ? exercises
       : exercises.filter(
           (item) => item.type.toLowerCase() === activeFilter.toLowerCase()
         );
+
+  // 🧭 ✅ Early return when loading
+  if (loading) {
+    return (
+      <div className="routine-screen">
+        <LoadingScreen />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="routine-screen">
+        <p className="error">{error}</p>
+      </div>
+    );
+  }
 
   return (
     <div className="routine-screen">
@@ -58,9 +75,6 @@ export const AiFitnessForm: React.FC<AiFitnessFormProps> = ({
           </button>
         ))}
       </div>
-
-      {loading && <p>Generating recommendations...</p>}
-      {error && <p>{error}</p>}
 
       {predictions && (
         <>

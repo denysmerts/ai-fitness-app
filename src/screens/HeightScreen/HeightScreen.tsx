@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { ActionButton, InputForm } from "../../components";
 import { isValidHeight } from "../../utils/validations";
+import { BmiMessage } from "../../components";
 import "./HeightScreen.scss";
 
 interface HeightScreenProps {
@@ -38,6 +39,8 @@ export const HeightScreen = ({ onNext }: HeightScreenProps) => {
             : "*Please, enter a value  between 3ft and 8ft."}
         </div>
       )}
+
+      <BmiMessage mode="calc"></BmiMessage>
 
       <div className="height-screen__title">How tall are you?</div>
       <div className="height-screen__subtitle">

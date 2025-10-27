@@ -46,7 +46,7 @@ export const FitnessTypeScreen = ({ onNext }: FitnessTypeScreenProps) => {
         ))}
       </div>
 
-      <div className="aim-screen__title">Your physique goal?</div>
+      <div className="aim-screen__title">Workout Preference?</div>
       <div className="aim-screen__subtitle">
         This choice will reflect on your workout plan
       </div>

@@ -10,3 +10,4 @@ export * from "./WeightScreen";
 export * from "./WeightGoalScreen";
 export * from "./FitnessLevelScreen";
 export * from "./DietScreen";
+export * from "./LoadingScreen";

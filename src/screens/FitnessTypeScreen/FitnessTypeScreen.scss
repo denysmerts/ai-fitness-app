@@ -42,12 +42,14 @@
       &__label {
         font-size: 19px;
         font-weight: 600;
+        white-space: nowrap;
       }
     }
   }
 
   &__title {
     @include title;
+    white-space: nowrap;
   }
 
   &__subtitle {

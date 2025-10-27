@@ -1,14 +1,15 @@
 // components/BmiMessage.tsx
 import aware from "../../assets/svg/aware.svg";
+import user from "../../assets/svg/user.png";
 import "./BMIMessage.scss";
 
-type Mode = "bmi" | "goal";
+type Mode = "bmi" | "goal" | "calc";
 
 interface BmiMessageProps {
   mode: Mode;
-  currentWeight?: { value: number; unit: "kg" | "lbs" }; // required for goal mode
-  goalWeight?: { value: number; unit: "kg" | "lbs" }; // required for goal mode
-  height: { value: number; unit: "cm" | "ft" };
+  currentWeight?: { value: number; unit: "kg" | "lbs" };
+  goalWeight?: { value: number; unit: "kg" | "lbs" };
+  height?: { value: number; unit: "cm" | "ft" };
 }
 
 export const BmiMessage = ({
@@ -23,7 +24,7 @@ export const BmiMessage = ({
   let bmi: number | null = null;
 
   if (mode === "bmi") {
-    if (!goalWeight) return null;
+    if (!goalWeight || !height) return null;
     const weightInKg =
       goalWeight.unit === "kg" ? goalWeight.value : goalWeight.value * 0.453592;
     const heightInM =
@@ -48,8 +49,15 @@ export const BmiMessage = ({
     }
   }
 
+  if (mode === "calc") {
+    message = "Calculating your body mass index";
+    subMessage =
+      "BMI is widely used as a risk factor for several health conditions.";
+    status = "normal";
+  }
+
   if (mode === "goal") {
-    if (!currentWeight || !goalWeight) return null;
+    if (!currentWeight || !goalWeight || !height) return null;
     const goalKg =
       goalWeight.unit === "kg" ? goalWeight.value : goalWeight.value * 0.453592;
     const currentKg =
@@ -64,36 +72,44 @@ export const BmiMessage = ({
     const percent = Math.abs((diff / currentKg) * 100).toFixed(1);
 
     if (goalKg <= 0) {
+      return null;
     } else if (goalKg === currentKg) {
       message = "EASY WIN: gain 0% of your weight";
       subMessage =
-        "As per a study by the University of Utah, even 5-minute workouts every day can help you keep fit and improve your sleep and energy levels.";
+        "Even 5-minute workouts daily can improve fitness, sleep, and energy levels.";
       status = "normal";
     } else if (bmi < 18.5) {
       message = "Uh-oh! Low weight alert!";
       status = "overweight";
       subMessage =
-        "A healthy weight range for your height is between 48 kg and 64 kg. Any weight below is classified as underweight and is not recommended by the World Health Organization";
+        "A healthy range for your height is between 48 kg and 64 kg. Below this is underweight, not recommended by WHO.";
     } else {
       if (diff > 0) {
         message = `CHALLENGING GOAL: gain ${percent}% of your weight`;
         status = "normal";
         subMessage =
-          "As per a study by the University of Utah, even 5-minute workouts every day can help you keep fit and improve your sleep and energy levels.";
+          "Even short, consistent workouts can help improve your energy and strength.";
       } else if (diff < 0) {
         message = `CHALLENGING GOAL: lose ${percent}% of your weight`;
         status = "normal";
         subMessage =
-          "In a new study by Mayo Clinic, overweight people who lose more than 20% of their body weight are almost 2 ½ times more likely to have good metabolic health as those who lose 5-10%.";
+          "Losing more than 20% of body weight can greatly improve metabolic health, according to Mayo Clinic.";
       }
     }
   }
+
+  // 🆕 Choose icon dynamically
+  const iconSrc = mode === "calc" ? user : aware;
 
   return (
     <div className={`bmi-message ${status}`}>
       <div className="bmi-message__title-wrapper">
         <div className="bmi-message__title-wrapper__icon">
-          <img className="icom" src={aware} alt="Info icon" />
+          <img
+            className="bmi-message__title-wrapper__icon"
+            src={iconSrc}
+            alt={`${mode} icon`}
+          />
         </div>
         <div className="bmi-message__title-wrapper__text">{message}</div>
       </div>

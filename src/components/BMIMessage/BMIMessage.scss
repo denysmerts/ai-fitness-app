@@ -39,6 +39,11 @@
     &__icon {
       width: 20px;
       height: 20px;
+
+      &.calc-mode {
+        width: 15px;
+        height: px;
+      }
     }
   }
 }
