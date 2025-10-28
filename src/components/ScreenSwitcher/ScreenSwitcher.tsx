@@ -15,8 +15,9 @@ import { AiFitnessForm } from "../../screens/AiFitnessForm";
 import { useState } from "react";
 import { calculateBmi } from "../../utils/bmi";
 import { ProgressBar } from "../ProgressionBar";
+import arrow from "../../assets/svg/left.svg";
+import "./ScreenSwitcher.scss";
 
-// ✅ define the screen type explicitly
 type Screen =
   | "home"
   | "age"
@@ -97,6 +98,27 @@ export const ScreenSwitcher = () => {
         )
       : null;
 
+  // ✅ Universal BACK handler
+  const screens: Screen[] = [
+    "home",
+    "age",
+    "gender",
+    "goal",
+    "physique",
+    "conditions",
+    "height",
+    "weight",
+    "goal-weight",
+    "result",
+    "finale",
+    "diet",
+  ];
+
+  const goBack = () => {
+    const currentIndex = screens.indexOf(screen);
+    if (currentIndex > 0) setScreen(screens[currentIndex - 1]);
+  };
+
   const generateAiRecommendations = async () => {
     if (
       !height ||
@@ -106,9 +128,7 @@ export const ScreenSwitcher = () => {
       !goal ||
       !conditions
     ) {
-      alert(
-        "Please complete all previous steps before generating your workout!"
-      );
+      alert("Please complete all previous steps before generating!");
       return;
     }
 
@@ -123,7 +143,8 @@ export const ScreenSwitcher = () => {
       fitness_type: fitnessType ?? 0,
     };
 
-    // ✅ Show finale screen immediately to render the LoadingScreen
+    console.log("📤 Sending to API:", input);
+
     setScreen("finale");
     setLoading(true);
     setError(null);
@@ -131,21 +152,17 @@ export const ScreenSwitcher = () => {
 
     try {
       await new Promise((resolve) => setTimeout(resolve, 2000));
+
       const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/predict`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(input),
       });
 
-      console.log("🔹 API status:", res.status);
       const data = await res.json();
-      console.log("🔹 API raw response:", data);
 
-      if (data.success) {
-        setPredictions(data.predictions);
-      } else {
-        setError(data.error || "Something went wrong");
-      }
+      if (data.success) setPredictions(data.predictions);
+      else setError(data.error || "Something went wrong");
     } catch {
       setError("Failed to connect to server");
     } finally {
@@ -155,46 +172,53 @@ export const ScreenSwitcher = () => {
 
   return (
     <div>
-      {/* ✅ Add global progress bar */}
-      {stepMap[screen] && <ProgressBar currentStep={stepMap[screen]!} />}
+      <div className="progress-nav">
+        {!["home", "finale", "diet"].includes(screen) && (
+          <div onClick={goBack} className="back-btn">
+            <img src={arrow} />
+          </div>
+        )}
+
+        {stepMap[screen] && <ProgressBar currentStep={stepMap[screen]!} />}
+      </div>
 
       {screen === "home" && <HomeScreen onNext={() => setScreen("age")} />}
       {screen === "age" && (
         <AgeScreen
-          onNext={(numericAge) => {
-            setAge(numericAge);
+          onNext={(v) => {
+            setAge(v);
             setScreen("gender");
           }}
         />
       )}
       {screen === "gender" && (
         <GenderScreen
-          onNext={(selectedGenderValue) => {
-            setGender(selectedGenderValue);
+          onNext={(v) => {
+            setGender(v);
             setScreen("goal");
           }}
         />
       )}
       {screen === "goal" && (
         <GoalScreen
-          onNext={(selectedGoal) => {
-            setGoal(selectedGoal);
+          onNext={(v) => {
+            setGoal(v);
             setScreen("physique");
           }}
         />
       )}
       {screen === "physique" && (
         <FitnessTypeScreen
-          onNext={(selectedAimIndex) => {
-            setFitnessType(selectedAimIndex);
+          onNext={(v) => {
+            setFitnessType(v);
             setScreen("conditions");
           }}
         />
       )}
       {screen === "conditions" && (
         <ConditionsScreen
-          onNext={(selectedConditions) => {
-            setConditions(selectedConditions);
+          onNext={(v) => {
+            setConditions(v);
             setScreen("height");
           }}
         />
