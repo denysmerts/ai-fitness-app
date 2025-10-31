@@ -9,7 +9,6 @@ import {
   WeightScreen,
   WeightGoalScreen,
   FitnessLevelScreen,
-  DietScreen,
 } from "../../screens";
 import { AiFitnessForm } from "../../screens/AiFitnessForm";
 import { useState } from "react";
@@ -160,6 +159,7 @@ export const ScreenSwitcher = () => {
       });
 
       const data = await res.json();
+      console.log(data);
 
       if (data.success) setPredictions(data.predictions);
       else setError(data.error || "Something went wrong");
@@ -261,11 +261,7 @@ export const ScreenSwitcher = () => {
           predictions={predictions}
           error={error}
           loading={loading}
-          onNext={() => setScreen("diet")}
         />
-      )}
-      {screen === "diet" && (
-        <DietScreen predictions={predictions} error={error} loading={loading} />
       )}
     </div>
   );

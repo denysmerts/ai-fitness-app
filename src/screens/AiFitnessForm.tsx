@@ -1,9 +1,15 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import fire from "../assets/svg/fire.svg";
+import barbell from "../assets/svg/barbellorange.svg";
+import food from "../assets/svg/carrot.svg";
 import { exerciseData } from "../data/exerciseData";
-import { formatData } from "../utils/formatData";
 import { LoadingScreen } from "./LoadingScreen";
-import { SlideBar } from "../components";
+import { SlideBar } from "../components/SlideBar/SlideBar";
+import { formatData } from "../utils/formatData";
+import { formatDietData } from "../utils/dietFormatData";
+import { dietData } from "../data/dietData";
+import { PopUp } from "../components";
+
 import "./AiFitnessForm.scss";
 
 type Predictions = {
@@ -17,16 +23,21 @@ interface AiFitnessFormProps {
   predictions: Predictions | null;
   loading: boolean;
   error: string | null;
-  onNext?: () => void;
 }
 
 export const AiFitnessForm: React.FC<AiFitnessFormProps> = ({
   predictions,
   loading,
   error,
-  onNext,
 }) => {
   const [activeFilter, setActiveFilter] = useState<string>("All");
+  const [showPopup, setShowPopup] = useState(false);
+
+  useEffect(() => {
+    if (predictions?.recommendation) {
+      setShowPopup(true);
+    }
+  }, [predictions]);
 
   const exercises = predictions?.exercises
     ? formatData(predictions.exercises, exerciseData)
@@ -39,7 +50,10 @@ export const AiFitnessForm: React.FC<AiFitnessFormProps> = ({
           (item) => item.type.toLowerCase() === activeFilter.toLowerCase()
         );
 
-  // 🧭 ✅ Early return when loading
+  const dietItems = predictions?.diet
+    ? formatDietData(predictions.diet, dietData).map((d) => d.name)
+    : [];
+
   if (loading) {
     return (
       <div className="routine-screen">
@@ -62,7 +76,6 @@ export const AiFitnessForm: React.FC<AiFitnessFormProps> = ({
         Find Your <span className="span">activity</span>
       </div>
 
-      {/* 🧭 Filter buttons */}
       <div className="workout-filters">
         {["All", "Cardio", "Physical"].map((filter) => (
           <button
@@ -76,7 +89,21 @@ export const AiFitnessForm: React.FC<AiFitnessFormProps> = ({
           </button>
         ))}
       </div>
-      <SlideBar equipment={predictions?.equipment || null} />
+
+      <SlideBar
+        title="Equipment"
+        icon={barbell}
+        items={predictions?.equipment || null}
+      />
+
+      <SlideBar title="Diet" icon={food} items={dietItems || null} />
+
+      {predictions?.recommendation && showPopup && (
+        <PopUp
+          recommendation={predictions.recommendation}
+          onClose={() => setShowPopup(false)}
+        />
+      )}
 
       {predictions && (
         <>
@@ -107,9 +134,6 @@ export const AiFitnessForm: React.FC<AiFitnessFormProps> = ({
               No recognized exercises found for {activeFilter.toLowerCase()}.
             </p>
           )}
-          <button className="routine-screen__button" onClick={onNext}>
-            View Diet Plan 🍽️
-          </button>
         </>
       )}
     </div>
