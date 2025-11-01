@@ -20,13 +20,22 @@ export const FitnessLevelScreen = ({
   loading,
 }: FitnessLevelScreenProps) => {
   const goalLabel =
-    goal === "muscle"
-      ? "Muscle Gain"
-      : goal === "fit"
-      ? "Toned Up"
-      : goal === "weight"
+    goal === "gain"
+      ? "Weight Gain"
+      : goal === "loss"
       ? "Weight Loss"
-      : "—";
+      : "Maintain Weight";
+
+  let activityStatus = "";
+  if (bmi < 18.5) {
+    activityStatus = "Underweight";
+  } else if (bmi < 25) {
+    activityStatus = "Normal";
+  } else if (bmi < 30) {
+    activityStatus = "Overweight";
+  } else {
+    activityStatus = "Obese";
+  }
 
   return (
     <div className="fitness-level">
@@ -34,18 +43,6 @@ export const FitnessLevelScreen = ({
 
       <div className="fitness-level__table">
         <div className="fitness-level__table__wrapper">
-          <div className="fitness-level__table__wrapper__info">
-            <img src={lifestyle} alt="Lifestyle" />
-            <div className="fitness-level__table__wrapper__info__text-wrapper">
-              <div className="fitness-level__table__wrapper__info__text-wrapper__subtext">
-                Lifestyle
-              </div>
-              <div className="fitness-level__table__wrapper__info__text-wrapper__text">
-                Active
-              </div>
-            </div>
-          </div>
-
           <div className="fitness-level__table__wrapper__info">
             <img src={goall} alt="Goal" />
             <div className="fitness-level__table__wrapper__info__text-wrapper">
@@ -62,10 +59,10 @@ export const FitnessLevelScreen = ({
             <img src={activity} alt="Activity" />
             <div className="fitness-level__table__wrapper__info__text-wrapper">
               <div className="fitness-level__table__wrapper__info__text-wrapper__subtext">
-                Activity Level
+                Weight Status
               </div>
               <div className="fitness-level__table__wrapper__info__text-wrapper__text">
-                Overweight
+                {activityStatus}
               </div>
             </div>
           </div>

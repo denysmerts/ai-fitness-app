@@ -242,9 +242,31 @@ export const ScreenSwitcher = () => {
         <WeightGoalScreen
           height={height}
           currentWeight={currentWeight}
-          onNext={() => setScreen("result")}
+          onNext={(goalWeight) => {
+            // Convert both weights to kg so comparison is accurate
+            const current =
+              currentWeight.unit === "kg"
+                ? currentWeight.value
+                : currentWeight.value * 0.453592;
+
+            const goal =
+              goalWeight.unit === "kg"
+                ? goalWeight.value
+                : goalWeight.value * 0.453592;
+
+            if (goal > current) {
+              setGoal("gain");
+            } else if (goal < current) {
+              setGoal("loss");
+            } else {
+              setGoal(null); // or "maintain"
+            }
+
+            setScreen("result");
+          }}
         />
       )}
+
       {screen === "result" && bmi !== null && (
         <FitnessLevelScreen
           bmi={bmi}
