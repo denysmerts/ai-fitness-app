@@ -243,7 +243,6 @@ export const ScreenSwitcher = () => {
           height={height}
           currentWeight={currentWeight}
           onNext={(goalWeight) => {
-            // Convert both weights to kg so comparison is accurate
             const current =
               currentWeight.unit === "kg"
                 ? currentWeight.value
