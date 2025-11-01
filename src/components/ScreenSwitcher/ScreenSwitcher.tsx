@@ -150,8 +150,6 @@ export const ScreenSwitcher = () => {
     setPredictions(null);
 
     try {
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-
       const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/predict`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
