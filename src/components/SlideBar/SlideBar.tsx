@@ -17,33 +17,70 @@ export const SlideBar: React.FC<SlideBarProps> = ({
   items,
 }) => {
   const [open, setOpen] = useState(true);
+  const isDiet = title.toLowerCase() === "diet";
 
+  const normalizeKey = (str: string) =>
+    str
+      .toLowerCase()
+      .normalize("NFKC")
+      .replace(/^[^a-z0-9]+/gi, "")
+      .replace(/[^a-z0-9]+$/gi, "")
+      .replace(/[^a-z0-9]+/gi, "_");
+
+  // ✅ Only normalize Diet data
   const list =
     typeof items === "string"
-      ? items
-          .split(/[,;\n]+/)
-          .map((i) => i.trim().toLowerCase())
-          .filter((i) => i.length > 0)
+      ? items.split(/[,;\n]+/).map((i) => (isDiet ? normalizeKey(i) : i.trim()))
       : Array.isArray(items)
-      ? items.map((i) => i.toLowerCase())
+      ? items.map((i) => (isDiet ? normalizeKey(i) : i))
       : [];
 
+  // ✅ Tools — unchanged raw view
+  if (!isDiet) {
+    return (
+      <div className={`slide-bar ${open ? "open" : ""}`}>
+        <div className="slide-bar__header" onClick={() => setOpen(!open)}>
+          <div className="slide-bar__title">
+            <img src={icon} alt={`${title} icon`} />
+            <div className="name">{title}</div>
+          </div>
+          <img
+            className={`slide-bar__arrow ${open ? "rotated" : ""}`}
+            src={arrow}
+            alt="toggle arrow"
+          />
+        </div>
+
+        <div className={`slide-bar__content ${open ? "open" : ""}`}>
+          {list.length > 0 ? (
+            <ul>
+              {list.map((item, i) => (
+                <li key={i}>{item}</li>
+              ))}
+            </ul>
+          ) : (
+            <p>No {title.toLowerCase()} required.</p>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  // ✅ Diet logic unchanged
   const protein: string[] = [];
   const vegetables: string[] = [];
   const juices: string[] = [];
 
-  if (title.toLowerCase() === "diet") {
-    list.forEach((key) => {
-      const food = dietData[key];
-      if (!food) return;
+  list.forEach((key) => {
+    const food = dietData[key];
+    if (!food) return;
 
-      const type = food.type.toLowerCase();
+    const type = food.type.toLowerCase();
 
-      if (type === "protein") protein.push(food.name);
-      if (type === "vegetable") vegetables.push(food.name);
-      if (type === "juice") juices.push(food.name);
-    });
-  }
+    if (type === "protein") protein.push(food.name);
+    if (type === "vegetable") vegetables.push(food.name);
+    if (type === "juice") juices.push(food.name);
+  });
 
   const maxRows = Math.max(protein.length, vegetables.length, juices.length);
 
@@ -63,34 +100,26 @@ export const SlideBar: React.FC<SlideBarProps> = ({
 
       <div className={`slide-bar__content ${open ? "open" : ""}`}>
         {list.length > 0 ? (
-          title.toLowerCase() === "diet" ? (
-            <table className="diet-table">
-              <thead>
-                <tr>
-                  <th>Protein</th>
-                  <th>Fiber</th>
-                  <th>Carbs</th>
+          <table className="diet-table">
+            <thead>
+              <tr>
+                <th>Protein</th>
+                <th>Fiber</th>
+                <th>Carbs</th>
+              </tr>
+            </thead>
+            <tbody>
+              {Array.from({ length: maxRows }).map((_, index) => (
+                <tr key={index}>
+                  <td>{protein[index] || ""}</td>
+                  <td>{vegetables[index] || ""}</td>
+                  <td>{juices[index] || ""}</td>
                 </tr>
-              </thead>
-              <tbody>
-                {Array.from({ length: maxRows }).map((_, index) => (
-                  <tr key={index}>
-                    <td>{protein[index] || ""}</td>
-                    <td>{vegetables[index] || ""}</td>
-                    <td>{juices[index] || ""}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          ) : (
-            <ul>
-              {list.map((item, i) => (
-                <li key={i}>{item}</li>
               ))}
-            </ul>
-          )
+            </tbody>
+          </table>
         ) : (
-          <p>No {title.toLowerCase()} required.</p>
+          <p>No diet required.</p>
         )}
       </div>
     </div>
