@@ -1,5 +1,5 @@
 export const dietData: Record<string, { name: string; type: string }> = {
-  // 🥦 VEGETABLES
+  //  VEGETABLES
   broccoli: { name: "Broccoli", type: "Vegetable" },
   carrots: { name: "Carrots", type: "Vegetable" },
   spinach: { name: "Spinach", type: "Vegetable" },
@@ -20,7 +20,7 @@ export const dietData: Record<string, { name: string; type: string }> = {
   leafy_greens: { name: "Leafy Greens", type: "Vegetable" },
   water_chestnut: { name: "Water Chestnut", type: "Vegetable" },
 
-  // 🍗 PROTEIN
+  //  PROTEIN
   cheese: { name: "Cheese", type: "Protein" },
   cottage_cheese: { name: "Cottage Cheese", type: "Protein" },
   skim_milk: { name: "Skim Milk", type: "Protein" },
@@ -45,7 +45,7 @@ export const dietData: Record<string, { name: string; type: string }> = {
   low_fat_dairy_products: { name: "Low-Fat Dairy Products", type: "Protein" },
   black_walnut: { name: "Black Walnut", type: "Protein" },
 
-  // 🧃 JUICES
+  //  JUICES
   green_juice: { name: "Green Juice", type: "Juice" },
   kale_juice: { name: "Kale Juice", type: "Juice" },
   spinach_juice: { name: "Spinach Juice", type: "Juice" },

@@ -5,19 +5,18 @@ import { BmiMessage } from "../../components";
 import "./HeightScreen.scss";
 
 interface HeightScreenProps {
-  onNext: (height: { value: number; unit: "cm" | "ft" }) => void;
+  onNext: (height: { value: number; unit: "cm" }) => void;
 }
 
 export const HeightScreen = ({ onNext }: HeightScreenProps) => {
-  const [unit, setUnit] = useState<"cm" | "ft">("cm"); // keep UI
   const [heightValue, setHeightValue] = useState<string>("");
 
   const numericValue = Number(heightValue);
-  const valid = heightValue !== "" && isValidHeight(numericValue, "cm"); // always check cm
+  const valid = heightValue !== "" && isValidHeight(numericValue, "cm");
 
   const handleSubmit = () => {
     if (!valid) return;
-    onNext({ value: numericValue, unit: "cm" }); // always pass cm
+    onNext({ value: numericValue, unit: "cm" });
   };
 
   return (
@@ -25,22 +24,17 @@ export const HeightScreen = ({ onNext }: HeightScreenProps) => {
       <InputForm
         value={heightValue}
         onChange={setHeightValue}
-        placeholder={unit === "cm" ? "170" : "5"}
-        unit={unit}
-        onUnitChange={(u) => setUnit(u as "cm" | "ft")} // keep UI
-        unitOptions={["cm", "ft"]}
+        placeholder="170"
         isError={!valid && heightValue !== ""}
       />
 
       {!valid && heightValue !== "" && (
         <div className="height-screen__error">
-          {unit === "cm"
-            ? "*Please, enter a value between 100 cm and 250 cm"
-            : "*Please, enter a value  between 3ft and 8ft."}
+          *Please, enter a value between 100 cm and 250 cm
         </div>
       )}
 
-      <BmiMessage mode="calc"></BmiMessage>
+      <BmiMessage mode="calc" />
 
       <div className="height-screen__title">How tall are you?</div>
       <div className="height-screen__subtitle">

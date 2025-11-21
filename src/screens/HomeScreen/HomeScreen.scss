@@ -8,11 +8,11 @@
   min-height: 100svh;
   box-sizing: border-box;
   width: 100%;
-  overflow-x: hidden; // prevent horizontal scroll
+  overflow-x: hidden;
 
   &__image {
     max-width: 100%;
-    height: auto; // maintain aspect ratio
+    height: auto;
   }
 
   &__title {

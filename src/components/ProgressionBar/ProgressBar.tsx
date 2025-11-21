@@ -2,11 +2,11 @@ import React from "react";
 import "./ProgressBar.scss";
 
 interface ProgressBarProps {
-  currentStep: number; // 1–9
+  currentStep: number;
 }
 
 export const ProgressBar: React.FC<ProgressBarProps> = ({ currentStep }) => {
-  const milestones = [1, 3, 6, 9]; // 4 dots
+  const milestones = [1, 3, 6, 9];
 
   return (
     <div className="progress-container">
@@ -14,17 +14,13 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({ currentStep }) => {
         const nextStep = milestones[i + 1];
         const showLine = i < milestones.length - 1;
 
-        // Fill logic for dot
         const dotActive = currentStep >= step;
 
-        // Fill logic for line
         let lineFill = "0%";
         if (showLine) {
           if (currentStep >= nextStep) {
-            // Entire line is filled
             lineFill = "100%";
           } else if (currentStep > step && currentStep < nextStep) {
-            // Partial fill only for the active segment
             const segmentProgress = (currentStep - step) / (nextStep - step);
             lineFill = `${segmentProgress * 100}%`;
           }

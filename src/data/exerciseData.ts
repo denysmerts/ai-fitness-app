@@ -9,6 +9,11 @@ import running from "../assets/img/routine/running.png";
 import briskwalking from "../assets/img/routine/brisk-walking.png";
 import dancing from "../assets/img/routine/dancing.png";
 import walking from "../assets/img/routine/walking.png";
+import pullups from "../assets/img/routine/pullups.png";
+import pushups from "../assets/img/routine/pushup.png";
+import stairmaster from "../assets/img/routine/stairmaster.png";
+import legpress from "../assets/img/routine/legpress.png";
+import rowingmachine from "../assets/img/routine/rowingmachine.png";
 
 export const exerciseData: Record<
   string,
@@ -38,6 +43,38 @@ export const exerciseData: Record<
     description: "Strengthens shoulders, triceps, and core.",
     type: "Physical",
   },
+  "pull-ups": {
+    name: "Pull Ups",
+    image: pullups,
+    description: "Strengthens shoulders, triceps, and core.",
+    type: "Physical",
+  },
+  "push-ups": {
+    name: "Push Ups",
+    image: pushups,
+    description: "Strengthens shoulders, triceps, and core.",
+    type: "Physical",
+  },
+  "leg press": {
+    name: "Leg Press",
+    image: legpress,
+    description: "Strengthens shoulders, triceps, and core.",
+    type: "Physical",
+  },
+
+  "rowing machine": {
+    name: "Rowing machine",
+    image: rowingmachine,
+    description: "Strengthens shoulders, triceps, and core.",
+    type: "Cardio",
+  },
+  stairmaster: {
+    name: "Stairmaster",
+    image: stairmaster,
+    description: "Strengthens shoulders, triceps, and core.",
+    type: "Cardio",
+  },
+
   cycling: {
     name: "Cycling",
     image: cycling,

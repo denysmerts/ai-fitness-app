@@ -18,7 +18,7 @@ export const WeightScreen = ({ onNext, height }: WeightScreenProps) => {
 
   const handleSubmit = () => {
     if (!valid) return;
-    // always send kg to AI
+
     const valueInKg = unit === "kg" ? numericValue : numericValue * 0.453592;
     onNext({ value: valueInKg, unit: "kg" });
   };
@@ -34,9 +34,6 @@ export const WeightScreen = ({ onNext, height }: WeightScreenProps) => {
         value={weightValue}
         onChange={setWeightValue}
         placeholder={unit === "kg" ? "70" : "154"}
-        unit={unit}
-        onUnitChange={(u) => setUnit(u as "kg" | "lbs")}
-        unitOptions={["kg", "lbs"]}
         isError={!valid && weightValue !== ""}
       />
 

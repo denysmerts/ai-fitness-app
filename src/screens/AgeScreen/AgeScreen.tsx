@@ -7,7 +7,7 @@ import Age4 from "../../assets/img/age4.png";
 import "./AgeScreen.scss";
 
 interface AgeScreenProps {
-  onNext: (age: number) => void; // pass numeric value to AI
+  onNext: (age: number) => void;
 }
 
 const ageOptions = [
@@ -33,7 +33,7 @@ export const AgeScreen = ({ onNext }: AgeScreenProps) => {
       (option) => option.id === selectedAge
     );
     if (selectedOption) {
-      onNext(selectedOption.value); // pass numeric average
+      onNext(selectedOption.value);
     }
   };
 

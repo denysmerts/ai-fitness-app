@@ -7,9 +7,8 @@
   justify-content: center;
   align-items: center;
   text-align: center;
-  box-sizing: border-box; // ✅ prevents layout shifts
-
-  &__wrapper {
+  box-sizing: border-box;
+  / &__wrapper {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     column-gap: 0px;

@@ -27,7 +27,6 @@ export const SlideBar: React.FC<SlideBarProps> = ({
       .replace(/[^a-z0-9]+$/gi, "")
       .replace(/[^a-z0-9]+/gi, "_");
 
-  // ✅ Only normalize Diet data
   const list =
     typeof items === "string"
       ? items.split(/[,;\n]+/).map((i) => (isDiet ? normalizeKey(i) : i.trim()))
@@ -35,7 +34,6 @@ export const SlideBar: React.FC<SlideBarProps> = ({
       ? items.map((i) => (isDiet ? normalizeKey(i) : i))
       : [];
 
-  // ✅ Tools — unchanged raw view
   if (!isDiet) {
     return (
       <div className={`slide-bar ${open ? "open" : ""}`}>
@@ -66,7 +64,6 @@ export const SlideBar: React.FC<SlideBarProps> = ({
     );
   }
 
-  // ✅ Diet logic unchanged
   const protein: string[] = [];
   const vegetables: string[] = [];
   const juices: string[] = [];

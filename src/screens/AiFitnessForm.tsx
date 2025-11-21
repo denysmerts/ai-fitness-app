@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import fire from "../assets/svg/fire.svg";
 import barbell from "../assets/svg/barbellorange.svg";
 import food from "../assets/svg/carrot.svg";
 import { exerciseData } from "../data/exerciseData";
@@ -121,10 +120,7 @@ export const AiFitnessForm: React.FC<AiFitnessFormProps> = ({
                     <div className="routine-screen__item__info-wrapper__name">
                       {ex.name}
                     </div>
-                    <div className="routine-screen__item__info-wrapper__add-info">
-                      <img src={fire} alt="fire icon" />
-                      <div className="or">{ex.calories || "430Kcal/hr"}</div>
-                    </div>
+                    <div className="routine-screen__item__info-wrapper__add-info"></div>
                   </div>
                 </div>
               ))}

@@ -77,6 +77,7 @@ export const ScreenSwitcher = () => {
   }>();
   const [gender, setGender] = useState<number | null>(null);
   const [age, setAge] = useState<number | null>(null);
+
   const [conditions, setConditions] = useState<{
     hypertension: 0 | 1;
     diabetes: 0 | 1;
@@ -97,7 +98,6 @@ export const ScreenSwitcher = () => {
         )
       : null;
 
-  // ✅ Universal BACK handler
   const screens: Screen[] = [
     "home",
     "age",
@@ -142,12 +142,12 @@ export const ScreenSwitcher = () => {
       fitness_type: fitnessType ?? 0,
     };
 
-    console.log("📤 Sending to API:", input);
-
     setScreen("finale");
     setLoading(true);
     setError(null);
     setPredictions(null);
+
+    console.time("⏱ AI Prediction Time");
 
     try {
       const res = await fetch(`${import.meta.env.VITE_API_BASE_URL}/predict`, {
@@ -157,7 +157,8 @@ export const ScreenSwitcher = () => {
       });
 
       const data = await res.json();
-      console.log(data);
+
+      console.timeEnd("⏱ AI Prediction Time");
 
       if (data.success) setPredictions(data.predictions);
       else setError(data.error || "Something went wrong");
@@ -258,7 +259,7 @@ export const ScreenSwitcher = () => {
             } else if (goal < current) {
               setGoal("loss");
             } else {
-              setGoal(null); // or "maintain"
+              setGoal(null);
             }
 
             setScreen("result");

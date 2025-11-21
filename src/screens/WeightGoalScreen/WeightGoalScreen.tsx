@@ -31,9 +31,6 @@ export const WeightGoalScreen = ({
         value={goalWeightValue}
         onChange={setGoalWeightValue}
         placeholder={unit === "kg" ? "65" : "143"}
-        unit={unit}
-        onUnitChange={(u) => setUnit(u as "kg" | "lbs")}
-        unitOptions={["kg", "lbs"]}
         isError={!valid && goalWeightValue !== ""}
       />
 
@@ -45,7 +42,6 @@ export const WeightGoalScreen = ({
         </div>
       )}
 
-      {/* Reusable BmiMessage in goal mode */}
       {valid && (
         <BmiMessage
           mode="goal"

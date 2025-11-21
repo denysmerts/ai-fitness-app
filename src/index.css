@@ -12,11 +12,6 @@ body {
   min-height: 100vh;
   justify-content: center;
 }
-@media (min-width: 1024px) {
-  body {
-    overflow: hidden;
-  }
-}
 
 * {
   box-sizing: border-box;

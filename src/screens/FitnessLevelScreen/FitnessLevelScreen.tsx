@@ -1,5 +1,4 @@
 import fitness from "../../assets/img/fitness-level.png";
-import lifestyle from "../../assets/svg/accessibility.svg";
 import goall from "../../assets/svg/adjust.svg";
 import activity from "../../assets/svg/poll.svg";
 import { ActionButton, BMIScale } from "../../components";
