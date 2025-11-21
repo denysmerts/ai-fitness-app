@@ -4,7 +4,7 @@ import { isValidWeight } from "../../utils/validations";
 import "./WeightGoalScreen.scss";
 
 interface WeightGoalScreenProps {
-  onNext: (goalWeight: { value: number; unit: "kg" | "lbs" }) => void;
+  onNext: (goalWeight: { value: number; unit: "kg" }) => void;
   height: { value: number; unit: "cm" | "ft" };
   currentWeight: { value: number; unit: "kg" | "lbs" };
 }
@@ -14,15 +14,14 @@ export const WeightGoalScreen = ({
   height,
   currentWeight,
 }: WeightGoalScreenProps) => {
-  const [unit, setUnit] = useState<"kg" | "lbs">("kg");
   const [goalWeightValue, setGoalWeightValue] = useState<string>("");
 
   const numericValue = Number(goalWeightValue);
-  const valid = goalWeightValue !== "" && isValidWeight(numericValue, unit);
+  const valid = goalWeightValue !== "" && isValidWeight(numericValue, "kg");
 
   const handleSubmit = () => {
     if (!valid) return;
-    onNext({ value: numericValue, unit });
+    onNext({ value: numericValue, unit: "kg" });
   };
 
   return (
@@ -30,15 +29,13 @@ export const WeightGoalScreen = ({
       <InputForm
         value={goalWeightValue}
         onChange={setGoalWeightValue}
-        placeholder={unit === "kg" ? "65" : "143"}
+        placeholder="65"
         isError={!valid && goalWeightValue !== ""}
       />
 
       {!valid && goalWeightValue !== "" && (
         <div className="weight-goal-screen__error">
-          {unit === "kg"
-            ? "*Enter a realistic weight between 30kg and 250kg."
-            : "*Enter a realistic weight between 66lbs and 550lbs."}
+          *Enter a realistic weight between 30kg and 250kg.
         </div>
       )}
 
@@ -46,7 +43,7 @@ export const WeightGoalScreen = ({
         <BmiMessage
           mode="goal"
           currentWeight={currentWeight}
-          goalWeight={{ value: numericValue, unit }}
+          goalWeight={{ value: numericValue, unit: "kg" }} // fixed
           height={height}
         />
       )}

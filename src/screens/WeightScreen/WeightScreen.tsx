@@ -5,27 +5,25 @@ import { calculateBmi } from "../../utils/bmi";
 import "./WeightScreen.scss";
 
 interface WeightScreenProps {
-  onNext: (weight: { value: number; unit: "kg" | "lbs" }) => void;
+  onNext: (weight: { value: number; unit: "kg" }) => void;
   height: { value: number; unit: "cm" | "ft" };
 }
 
 export const WeightScreen = ({ onNext, height }: WeightScreenProps) => {
-  const [unit, setUnit] = useState<"lbs" | "kg">("kg");
   const [weightValue, setWeightValue] = useState<string>("");
 
   const numericValue = Number(weightValue);
-  const valid = weightValue !== "" && isValidWeight(numericValue, unit);
+  const valid = weightValue !== "" && isValidWeight(numericValue, "kg");
 
   const handleSubmit = () => {
     if (!valid) return;
 
-    const valueInKg = unit === "kg" ? numericValue : numericValue * 0.453592;
-    onNext({ value: valueInKg, unit: "kg" });
+    onNext({ value: numericValue, unit: "kg" });
   };
 
   let bmi: number | null = null;
   if (valid) {
-    bmi = calculateBmi(numericValue, unit, height.value, height.unit);
+    bmi = calculateBmi(numericValue, "kg", height.value, height.unit);
   }
 
   return (
@@ -33,15 +31,13 @@ export const WeightScreen = ({ onNext, height }: WeightScreenProps) => {
       <InputForm
         value={weightValue}
         onChange={setWeightValue}
-        placeholder={unit === "kg" ? "70" : "154"}
+        placeholder="70"
         isError={!valid && weightValue !== ""}
       />
 
       {!valid && weightValue !== "" && (
         <div className="weight-screen__error">
-          {unit === "kg"
-            ? "*Enter a realistic weight between 30kg and 250kg."
-            : "*Enter a realistic weight between 66lbs and 550lbs."}
+          *Enter a realistic weight between 30kg and 250kg.
         </div>
       )}
 
@@ -49,7 +45,7 @@ export const WeightScreen = ({ onNext, height }: WeightScreenProps) => {
         <BmiMessage
           mode="bmi"
           height={height}
-          goalWeight={{ value: numericValue, unit }}
+          goalWeight={{ value: numericValue, unit: "kg" }}
         />
       )}
 
